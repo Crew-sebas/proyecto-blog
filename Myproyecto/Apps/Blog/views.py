@@ -98,7 +98,6 @@ def eliminar_publicacion(request, publicacion_id):
 
 
 @login_required
-@permission_required('blog.puede_eliminar_publicacion', raise_exception=True)
 def eliminar_comentario(request, comentario_id):
     comentario = get_object_or_404(Comentario, id=comentario_id)
     if comentario.autor != request.user and not request.user.has_perm('blog.puede_eliminar_comentario'):
@@ -108,7 +107,6 @@ def eliminar_comentario(request, comentario_id):
         comentario.delete()
         return redirect('detalle_publicacion', publicacion_id=comentario.publicacion.id)
     return render(request, 'eliminar_comentario.html', {'comentario': comentario})
-
 
 
 @receiver(post_save, sender=User)
